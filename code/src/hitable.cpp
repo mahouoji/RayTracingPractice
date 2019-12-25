@@ -394,8 +394,8 @@ bool Box::hit(const Ray& ray, HitRecord* record) const {
     Vector3f ori = TransUtils::transform(inv_trans_, ray.get_ori());
     Vector3f dir = TransUtils::transform(inv_trans_, ray.get_dir(), 0);
     if(meshesp_->hit(Ray(ori, dir, ray.get_tmin(), ray.get_tmax()), record)) {
-        record->position_ = TransUtils::transform(inv_trans_, record->position_);
-        record->normal_ = TransUtils::transform(inv_trans_, record->normal_, 0);
+        record->position_ = TransUtils::transform(trans_, record->position_);
+        record->normal_ = TransUtils::transform(trans_, record->normal_, 0).normalized();
         return true;
     }
     return false;
