@@ -373,3 +373,23 @@ bool Rect::hit(const Ray& ray, HitRecord* record) const {
    record->t_ = t;
    return true;
 }
+
+// box
+Box::Box(){};
+Box::Box(const Vector3f& pmin, const Vector3f& pmax, Material* mp) {
+    pmin_ = pmin;
+    pmax_ = pmax;
+    meshesp_ = new HitableList();
+    meshesp_->add(new Rect(Vector2f(pmin(0), pmin(1)), Vector2f(pmax(0), pmax(1)), pmax(2), mp, 2) );
+    meshesp_->add(new Rect(Vector2f(pmin(0), pmin(1)), Vector2f(pmax(0), pmax(1)), pmin(2), mp, 2, true) );
+    
+    meshesp_->add(new Rect(Vector2f(pmin(0), pmin(2)), Vector2f(pmax(0), pmax(2)), pmax(1), mp, 1) );
+    meshesp_->add(new Rect(Vector2f(pmin(0), pmin(2)), Vector2f(pmax(0), pmax(2)), pmin(1), mp, 1, true) );
+    
+    meshesp_->add(new Rect(Vector2f(pmin(1), pmin(2)), Vector2f(pmax(1), pmax(2)), pmax(0), mp, 0) );
+    meshesp_->add(new Rect(Vector2f(pmin(1), pmin(2)), Vector2f(pmax(1), pmax(2)), pmin(0), mp, 0, true) );
+}
+
+bool Box::hit(const Ray& ray, HitRecord* record) const {
+    return meshesp_->hit(ray, record);
+}

@@ -124,3 +124,15 @@ class Rect : public Hitable {
    Material* materialp_;
    Eigen::Vector3f normal_;
 };
+
+class Box : public Hitable {
+ public:
+   Box();
+   Box(const Eigen::Vector3f& pmin,
+         const Eigen::Vector3f& pmax, Material* mp);
+   virtual bool hit(const Ray& ray, HitRecord* record) const;
+ private:
+   HitableList* meshesp_;
+   Eigen::Vector3f pmin_, pmax_;
+   Material* materialp_;
+};

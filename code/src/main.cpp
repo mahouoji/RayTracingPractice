@@ -26,7 +26,7 @@ using namespace Eigen;
 using namespace tbb;
 
 const int MAX_DEPTH = 4;
-const size_t SAMPLES = 200;
+const size_t SAMPLES = 500;
 const bool IS_TEST = true;
 const int TRACE_MODE = 0;
 const int TRACE_PATH= 0;
@@ -52,7 +52,7 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 555, white, 1, true));
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 0, white, 1));
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 555, white, 2, true));
-
+    /*
     MeshPrimitive* pyramid = new MeshPrimitive();
     pyramid->load_off("../data/pyramid.off");
 
@@ -60,7 +60,7 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     float s1 = 200;
     float s2 = 250;
     float s3 = 300;
-    MeshObject* obj1 = new MeshObject(pyramid, white);
+    MeshObject* obj1 = new MeshObject(pyramid, metal);
     obj1->scale(Vector3f(s1, s1*r, s1));
     obj1->translate(Vector3f(278, 285, 278));
     obj1->update_trans_matrix();
@@ -80,7 +80,9 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     world->add(obj1);
     world->add(obj2);
     world->add(obj3);
-
+    */
+    world->add(new Box(Vector3f(130, 0, 65), Vector3f(295, 165, 230), white));
+    world->add(new Box(Vector3f(265, 0, 295), Vector3f(430, 330, 460), white));
 
     cam->config(500, 500, tan(M_PI / 9), 10, 2000, 10, 0);
     cam->look_at(Vector3f(278, 278, -800), Vector3f(278, 278, 0));
