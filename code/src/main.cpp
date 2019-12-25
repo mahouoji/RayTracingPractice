@@ -81,8 +81,15 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     world->add(obj2);
     world->add(obj3);
     */
-    world->add(new Box(Vector3f(130, 0, 65), Vector3f(295, 165, 230), white));
-    world->add(new Box(Vector3f(265, 0, 295), Vector3f(430, 330, 460), white));
+    Matrix4f trans1 = TransUtils::translation(130, 0, 65) * TransUtils::rotation_y(-M_PI / 10);
+    Matrix4f trans2 = TransUtils::translation(265, 0, 295) * TransUtils::rotation_y(M_PI / 12);
+    Box* box1 = new Box(Vector3f(0, 0, 0), Vector3f(165, 165, 165), white);
+    Box* box2 = new Box(Vector3f(0, 0, 0), Vector3f(165, 330, 165), white);
+    box1->set_transform(trans1);
+    box2->set_transform(trans2);
+    world->add(box1);
+    world->add(box2);
+
 
     cam->config(500, 500, tan(M_PI / 9), 10, 2000, 10, 0);
     cam->look_at(Vector3f(278, 278, -800), Vector3f(278, 278, 0));

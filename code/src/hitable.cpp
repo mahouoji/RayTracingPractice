@@ -391,5 +391,17 @@ Box::Box(const Vector3f& pmin, const Vector3f& pmax, Material* mp) {
 }
 
 bool Box::hit(const Ray& ray, HitRecord* record) const {
-    return meshesp_->hit(ray, record);
+    Vector3f ori = TransUtils::transform(inv_trans_, ray.get_ori());
+    Vector3f dir = TransUtils::transform(inv_trans_, ray.get_dir(), 0);
+    if(meshesp_->hit(Ray(ori, dir, ray.get_tmin(), ray.get_tmax()), record)) {
+        record->position_ = TransUtils::transform(inv_trans_, record->position_);
+        record->normal_ = TransUtils::transform(inv_trans_, record->normal_, 0);
+        return true;
+    }
+    return false;
+}
+
+void Box::set_transform(const Matrix4f& trans) {
+    trans_ = trans;
+    inv_trans_ = trans_.inverse();
 }

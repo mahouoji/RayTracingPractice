@@ -131,8 +131,11 @@ class Box : public Hitable {
    Box(const Eigen::Vector3f& pmin,
          const Eigen::Vector3f& pmax, Material* mp);
    virtual bool hit(const Ray& ray, HitRecord* record) const;
+   void set_transform(const Eigen::Matrix4f& t);
  private:
    HitableList* meshesp_;
    Eigen::Vector3f pmin_, pmax_;
    Material* materialp_;
+   Eigen::Matrix4f trans_;
+   Eigen::Matrix4f inv_trans_;
 };
