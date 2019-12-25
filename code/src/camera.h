@@ -12,9 +12,12 @@ class Camera {
     Ray get_ray_perspective_focus(float x, float y);
     void look_at(Eigen::Vector3f from, Eigen::Vector3f to,
             Eigen::Vector3f rand = Eigen::Vector3f(0, 1, 0));
+    void config(int image_width, int image_height,
+        float scale, float z_near, float z_far,
+        float focus, float aperture);
     void config_focus(float focus, float aperture);
 
-        // trasformation matrix for camera
+    // trasformation matrix for camera
     Eigen::Matrix4f camera_to_world_;
  private:
     // image size in pixel

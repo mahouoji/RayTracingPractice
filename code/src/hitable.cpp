@@ -330,3 +330,41 @@ bool MeshObject::hit(const Ray& ray, HitRecord* record) const {
     }
     return false;
 }
+
+//Rectangular
+// xy
+Rect::Rect() {}
+Rect::Rect(Vector2f lowerleft, Vector2f upperright, float k, Material* mp, int naxis, bool flip) :
+      lowerleft_(lowerleft), upperright_(upperright), k_(k), materialp_(mp) {
+    norm_axis_ = naxis;
+    if (naxis == 1) {
+        plane_axis_[0] = 0;
+        plane_axis_[1] = 2;
+    } else {
+        plane_axis_[0] = (naxis + 1) % 3;
+        plane_axis_[1] = (naxis + 2) % 3;
+    }
+    normal_ = Vector3f::Zero();
+    normal_(naxis) = 1;
+    if (flip) {
+        normal_ *= -1;
+    }
+}
+
+bool Rect::hit(const Ray& ray, HitRecord* record) const {
+   Vector3f ori = ray.get_ori();
+   Vector3f dir = ray.get_dir();
+
+   float t = (k_ - ori(norm_axis_)) / dir(norm_axis_);
+   if (!ray.covers(t)) { return false; }
+   float x = ori(plane_axis_[0]) + t * dir(plane_axis_[0]);
+   float y = ori(plane_axis_[1]) + t * dir(plane_axis_[1]);
+   if (x < lowerleft_(0) || x > upperright_(0) || y < lowerleft_(1) || y > upperright_(1) ) {
+      return false;
+   }
+   record->materialp_ = materialp_;
+   record->normal_ = normal_;
+   record->position_ = ray.get_point_at(t);
+   record->t_ = t;
+   return true;
+}

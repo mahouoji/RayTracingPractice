@@ -16,6 +16,18 @@ Camera::Camera(int image_width, int image_height,
     camera_to_world_ = Matrix4f::Identity();
 }
 
+void Camera::config(int image_width, int image_height, 
+        float scale, float z_near, float z_far,
+        float focus, float aperture) {
+    image_width_ = image_width;
+    image_height_ = image_height;
+    fov_scale_ = scale;
+    z_near_ = z_near;
+    z_far_ = z_far;
+    z_focus_ = focus;
+    aperture_ = aperture;
+}
+
 void Camera::config_focus(float focus, float aperture) {
     z_focus_ = focus;
     aperture_ = aperture;
@@ -45,7 +57,7 @@ Ray Camera::get_ray_perspective_focus(float x, float y) {
     Vector3f ori = TransUtils::transform(camera_to_world_, Vector3f(0, 0, 0) + rnd * aperture_, 1);
     Vector3f dir= foc - ori;
     float len = dir.norm();
-    return Ray(ori, dir, 0.1, 100);
+    return Ray(ori, dir, len * z_near_ / z_focus_, len * z_far_ / z_focus_);
     //return Ray(ori, dir, len, len * z_far_ / z_near_);
 }
 

@@ -109,3 +109,17 @@ class MeshObject : public Hitable {
     MeshPrimitive* primitivep_;
     Material* materialp_;
 };
+
+class Rect : public Hitable {
+ public:
+   Rect();
+   Rect(Eigen::Vector2f lowerleft, Eigen::Vector2f upperright, float k, Material* mp, int axis, bool flip=false);
+   virtual bool hit(const Ray& ray, HitRecord* record) const;
+ private:
+   int norm_axis_;
+   int plane_axis_[2];
+   Eigen::Vector2f lowerleft_, upperright_;
+   float k_;
+   Material* materialp_;
+   Eigen::Vector3f normal_;
+};
