@@ -228,7 +228,7 @@ bool MeshPrimitive::load_off(const std::string& filename) {
 
 //TransRec
 TransRec::TransRec() {
-    scale_ = 1;
+    scale_ = Vector3f::Ones();
     rotation_[0] = 0;
     rotation_[1] = 0;
     rotation_[2] = 0;
@@ -270,11 +270,17 @@ void MeshObject::rotate(float a, int axis) {
 }
 
 void MeshObject::scale(float s) {
-    float res = trans_rec_.scale_ * s;
-    if (res >= 0.01) {
-        trans_rec_.scale_ = res;
-        //update_trans_matrix();
-    }
+    scale(Vector3f(s, s, s));
+}
+
+void MeshObject::scale(const Vector3f& s) {
+    float x = trans_rec_.scale_(0) * s(0);
+    float y = trans_rec_.scale_(1) * s(1);
+    float z = trans_rec_.scale_(2) * s(2);
+    x = x > 1.0e-4 ? x : 1.0e-4;
+    y = y > 1.0e-4 ? y : 1.0e-4;
+    z = z > 1.0e-4 ? z : 1.0e-4;
+    trans_rec_.scale_ = Vector3f(x, y, z);
 }
 
 void MeshObject::update_trans_matrix() {
@@ -300,10 +306,10 @@ void MeshObject::update_trans_vertices() {
 }
 
 bool MeshObject::hit(const Ray& ray, HitRecord* record) const {
-    // test with sphere boundary
-    HitRecord sphere_rec;
-    Sphere s(trans_rec_.translation_, sqrt(3) * trans_rec_.scale_, NULL);
-    if (!s.easy_hit(ray)) { return false; }
+    //test with sphere boundary
+    //HitRecord sphere_rec;
+    //Sphere s(trans_rec_.translation_, sqrt(3) * trans_rec_.scale_, NULL);
+    //if (!s.easy_hit(ray)) { return false; }
 
     HitRecord tmp_rec;
     bool found = false;

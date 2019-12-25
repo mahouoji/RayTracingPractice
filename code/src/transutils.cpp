@@ -104,6 +104,15 @@ Matrix4f scale2D(float s) {
     return m;
 }
 
+Matrix4f scale(const Vector3f& s) {
+    Matrix4f m;
+    m << s(0), 0, 0, 0,
+         0, s(1), 0, 0,
+         0, 0, s(2), 0,
+         0, 0, 0, 1;
+    return m;
+}
+
 // reflect a ray at normal
 Vector3f reflect(const Vector3f& in, const Vector3f& norm) {
     return (in - 2 * in.dot(norm) * norm).normalized();

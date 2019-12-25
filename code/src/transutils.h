@@ -23,6 +23,7 @@ Eigen::Matrix4f translation(Eigen::Vector3f trans);
 
 Eigen::Matrix4f scale(float s);
 Eigen::Matrix4f scale2D(float s);
+Eigen::Matrix4f scale(const Eigen::Vector3f& s);
 
 Eigen::Vector3f reflect(const Eigen::Vector3f& in,
         const Eigen::Vector3f& nrom);

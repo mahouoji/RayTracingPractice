@@ -86,7 +86,7 @@ struct TransRec {
     TransRec();
     Eigen::Matrix4f compute_matrix();
     Eigen::Matrix4f compute_with_trans(Eigen::Vector3f trans);
-    float scale_;
+    Eigen::Vector3f scale_;
     float rotation_[3]; // along x, y, z
     Eigen::Vector3f translation_;
 };
@@ -99,6 +99,7 @@ class MeshObject : public Hitable {
     void translate(const Eigen::Vector3f& t);
     void rotate(float a, int axis);
     void scale(float s);
+    void scale(const Eigen::Vector3f& s);
     void update_trans_matrix();
     void update_trans_vertices();
  private:

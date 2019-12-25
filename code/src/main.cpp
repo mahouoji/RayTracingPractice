@@ -25,8 +25,8 @@ using namespace std;
 using namespace Eigen;
 using namespace tbb;
 
-const int MAX_DEPTH = 3;
-const size_t SAMPLES = 2000;
+const int MAX_DEPTH = 4;
+const size_t SAMPLES = 200;
 const bool IS_TEST = true;
 const int TRACE_MODE = 0;
 const int TRACE_PATH= 0;
@@ -44,7 +44,7 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     Material* white = new Lambertian(Vector3f(0.73, 0.73, 0.73));
     Material* green = new Lambertian(Vector3f(0.12, 0.45, 0.15));
     Material* light = new DiffuseLight(Vector3f(15, 15, 15));
-    Material* metal = new Metal(Vector3f(0.5, 0.5, 0.5), 0.01);
+    Material* metal = new Metal(Vector3f(0.8, 0.85, 0.88), 0.0);
 
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 555, green, 0, true));
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 0, red, 0));
@@ -56,19 +56,23 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     MeshPrimitive* pyramid = new MeshPrimitive();
     pyramid->load_off("../data/pyramid.off");
 
+    float r = 7.0 / 11.0;
+    float s1 = 200;
+    float s2 = 250;
+    float s3 = 300;
     MeshObject* obj1 = new MeshObject(pyramid, white);
-    obj1->scale(200);
-    obj1->translate(Vector3f(278, 278, 278));
+    obj1->scale(Vector3f(s1, s1*r, s1));
+    obj1->translate(Vector3f(278, 285, 278));
     obj1->update_trans_matrix();
     obj1->update_trans_vertices();
     MeshObject* obj2 = new MeshObject(pyramid, white);
-    obj2->scale(300);
+    obj2->scale(Vector3f(s2, s2*r, s2));
     obj2->translate(Vector3f(278, 200, 278));
-    obj2->rotate(M_PI/4, 1);
+    //obj2->rotate(M_PI/4, 1);
     obj2->update_trans_matrix();
     obj2->update_trans_vertices();
     MeshObject* obj3 = new MeshObject(pyramid, metal);
-    obj3->scale(300);
+    obj3->scale(Vector3f(s3, s3*r, s3));
     obj3->translate(Vector3f(278, 100, 278));
     obj3->update_trans_matrix();
     obj3->update_trans_vertices();
