@@ -332,7 +332,6 @@ bool MeshObject::hit(const Ray& ray, HitRecord* record) const {
 }
 
 //Rectangular
-// xy
 Rect::Rect() {}
 Rect::Rect(Vector2f lowerleft, Vector2f upperright, float k, Material* mp, int naxis, bool flip) :
       lowerleft_(lowerleft), upperright_(upperright), k_(k), materialp_(mp) {

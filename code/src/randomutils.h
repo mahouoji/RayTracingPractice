@@ -6,4 +6,5 @@ namespace RandomUtils {
     float random_float();
     Eigen::Vector2f unit_in_circle();
     Eigen::Vector3f unit_on_sphere();
+    Eigen::Vector3f unit_in_sphere();
 };

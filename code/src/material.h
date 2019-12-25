@@ -15,7 +15,7 @@ class Material {
  public:
     virtual bool scatter(const Ray& ray, const HitRecord& rec, ScatterRecord* srec) const;
     virtual Eigen::Vector3f emit() const;
-    static Eigen::Vector3f gen_unit_sphere();
+    //static Eigen::Vector3f gen_unit_sphere();
 };
 
 class Lambertian : public Material {

@@ -25,4 +25,12 @@ Vector3f unit_on_sphere() {
     return Vector3f(x, y, z);
 }
 
+Vector3f unit_in_sphere() {
+    Vector3f p;
+    do {
+        p = Vector3f::Random();
+    } while (p.squaredNorm() >= 1.0);
+    return p;
+}
+
 };

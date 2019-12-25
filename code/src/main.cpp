@@ -26,7 +26,7 @@ using namespace Eigen;
 using namespace tbb;
 
 const int MAX_DEPTH = 3;
-const size_t SAMPLES = 100;
+const size_t SAMPLES = 2000;
 const bool IS_TEST = true;
 const int TRACE_MODE = 0;
 const int TRACE_PATH= 0;
@@ -44,6 +44,7 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     Material* white = new Lambertian(Vector3f(0.73, 0.73, 0.73));
     Material* green = new Lambertian(Vector3f(0.12, 0.45, 0.15));
     Material* light = new DiffuseLight(Vector3f(15, 15, 15));
+    Material* metal = new Metal(Vector3f(0.5, 0.5, 0.5), 0.01);
 
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 555, green, 0, true));
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 0, red, 0));
@@ -51,6 +52,30 @@ void build_world_connell(HitableList* world, Camera* cam, HitableList* lights = 
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 555, white, 1, true));
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 0, white, 1));
     world->add(new Rect(Vector2f(0, 0), Vector2f(555, 555), 555, white, 2, true));
+
+    MeshPrimitive* pyramid = new MeshPrimitive();
+    pyramid->load_off("../data/pyramid.off");
+
+    MeshObject* obj1 = new MeshObject(pyramid, white);
+    obj1->scale(200);
+    obj1->translate(Vector3f(278, 278, 278));
+    obj1->update_trans_matrix();
+    obj1->update_trans_vertices();
+    MeshObject* obj2 = new MeshObject(pyramid, white);
+    obj2->scale(300);
+    obj2->translate(Vector3f(278, 200, 278));
+    obj2->rotate(M_PI/4, 1);
+    obj2->update_trans_matrix();
+    obj2->update_trans_vertices();
+    MeshObject* obj3 = new MeshObject(pyramid, metal);
+    obj3->scale(300);
+    obj3->translate(Vector3f(278, 100, 278));
+    obj3->update_trans_matrix();
+    obj3->update_trans_vertices();
+
+    world->add(obj1);
+    world->add(obj2);
+    world->add(obj3);
 
 
     cam->config(500, 500, tan(M_PI / 9), 10, 2000, 10, 0);
@@ -129,7 +154,7 @@ class RayRender {
     }
 
     Vector3f color_ray(const Ray& ray, const HitableList* world, int depth) const {
-        Vector3f global_light = Vector3f(0.01, 0.01, 0.01);
+        Vector3f global_light = Vector3f(0.0, 0.0, 0.0);
         int light_samples = 5;
         if (depth == MAX_DEPTH) { return global_light; }
         HitRecord rec;
